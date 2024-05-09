@@ -1,7 +1,9 @@
 package com.example.pruebalab6.controller;
 
 import com.example.pruebalab6.entity.Technician;
+import com.example.pruebalab6.entity.Ticket;
 import com.example.pruebalab6.repository.TechnicianRepository;
+import com.example.pruebalab6.repository.TicketRepository;
 import jakarta.validation.Valid;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
@@ -20,9 +22,10 @@ import java.util.Optional;
 public class TechnicianController {
 
     private final TechnicianRepository technicianRepository;
-
-    public TechnicianController(TechnicianRepository technicianRepository) {
+    private final TicketRepository ticketRepository;
+    public TechnicianController(TechnicianRepository technicianRepository, TicketRepository ticketRepository) {
         this.technicianRepository = technicianRepository;
+        this.ticketRepository = ticketRepository;
     }
 
     @GetMapping("/Tecnicos")
@@ -81,11 +84,14 @@ public class TechnicianController {
     public String borrarTransportista(Model model,
                                       @RequestParam("id") int id,
                                       RedirectAttributes attr) {
+        List<Ticket> tickets = ticketRepository.listaticketsportecnico(id);
+        if (!tickets.isEmpty()) {
+            ticketRepository.deleteAll(tickets);
+        }
 
-        Optional<Technician> optProduct = technicianRepository.findById(id);
-
-        if (optProduct.isPresent()) {
-            technicianRepository.deleteById(id);
+        Optional<Technician> optTechnician = technicianRepository.findById(id);
+        if (optTechnician.isPresent()) {
+            technicianRepository.delete(optTechnician.get());
             attr.addFlashAttribute("msg", "Técnico eliminado exitosamente");
         }
         return "redirect:/Tecnicos";

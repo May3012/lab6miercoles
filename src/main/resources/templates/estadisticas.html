@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/navbar.html :: header( title = 'Técnicos')}"></head>
+<body>
+<main>
+  <div class="container px-4 pb-5">
+    <nav th:replace="~{fragments/navbar.html :: navbar( active = 'Tecnico')}"></nav>
+    <h1 class="pb-2 border-bottom">Estadísticas - Equipos</h1>
+    <br>
+    <h4>Cantidad de equipos por país</h4>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>País</th>
+        <th>Cantidad</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="equipos : ${listaEquiposPorPais}">
+        <td th:text="${equipos.getCountry()}">
+        <td th:text="${equipos.getCantidad_Equipos()}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script th:replace="~{fragments/navbar.html :: footer-bootstrap}"></script>
+</body>
+</html>
