@@ -1,4 +1,12 @@
 package com.example.pruebalab6.repository;
 
-public interface TicketRepository {
+import com.example.pruebalab6.entity.Ticket;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TicketRepository extends JpaRepository<Ticket,Integer> {
+
+
+
+
+
 }
